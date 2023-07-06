@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Image to Text Converter</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: row;
+        align-items: top;
+        margin-top: 5px;
+        justify-content: center;
+        max-height: 100%;
+        margin: 30px;
+      }
+
+      .image-column {
+        flex: 1;
+        flex-basis: 10px;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        background-color: #f8f9fa;
+      }
+
+      #image-viewer {
+        width: 100%;
+        max-height: 650px;
+        height: 95vh;
+      }
+
+      .info-column {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+        flex-basis: 100px;
+        align-items: flex-start;
+        justify-content: left;
+        margin-left: 2%;
+      }
+
+      input {
+        display: block;
+        justify-content: left;
+        margin-top: 200px;
+        margin-bottom: 20px;
+        padding: 10px;
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        font-size: 16px;
+      }
+
+      label {
+        display: block;
+        font-weight: bold;
+      }
+
+      .buttons-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: flex-start;
+      }
+
+      .buttons-container button[type="button"],
+      .buttons-container button[type="submit"] {
+        display: inline-flex;
+        justify-content: flex-end;
+        background-color: #4CAF50;
+        color: white;
+        padding: 8px 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 13px;
+        margin-top: 3px;
+      }
+
+      .buttons-container button[type="button"]:hover,
+      .buttons-container button[type="submit"]:hover {
+        background-color: #45a049;
+      }
+
+      .buttons-container button[type="button"]:active,
+      .buttons-container button[type="submit"]:active {
+        background-color: #3e8e41;
+      }
+
+      .form-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: left;
+        align-items: flex-start;
+      }
+
+      .form-container button {
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-start;
+        background-color: #4CAF50;
+        color: white;
+        padding: 8px 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        margin-top: 0px;
+      }
+
+      .form-container label {
+        display: flex;
+        justify-content: left;
+        width: 88%;
+        font-size: 14px;
+        margin-top: 10px;
+      }
+
+      .form-container input {
+        display: inline-block;
+        width: 60%;
+        justify-content: left;
+        border-radius: 5px;
+        padding-bottom: 7px;
+        box-sizing: border-box;
+        font-size: 14px;
+      }
+
+      .form-container textarea {
+        display: inline-block;
+        border-radius: 5px;
+        margin-top: 5px;
+        box-sizing: border-box;
+        height: 80%;
+        padding-bottom: 7px;
+        font-size: 14px;
+        font-family: "Monaco", monospace;
+        margin-bottom: 12px;
+      }
+    </style>
+    <script>
+      function copyText() {
+        var textarea = document.getElementById("image-text");
+        textarea.select();
+        navigator.clipboard.writeText(textarea.value);
+        var copyButton = document.getElementById("copy-button");
+        copyButton.innerHTML = "&#10004; Copied";
+      }
+    </script>
+  </head>
+  <body>
+    <span>
+      <h1 style="text-align: center;">Image to Text Converter</h1>
+    </span>
+    <div class="container">
+      <div class="image-column">
+        <iframe id="image-viewer" src="{{ url_for('uploaded_file', filename=filename) }}"></iframe>
+      </div>
+      <div class="info-column">
+        <div>
+          <form action="{{ url_for('index') }}">
+            <div class="form-container">
+              <label for="image-text">TEXT GENERATED</label>
+              <button type="button" id="copy-button" onclick="copyText()">Copy Text</button>
+            </div>
+            <div class="form-container">
+              <textarea id="image-text" name="image-text" rows="20" cols="95" required>{{text}}</textarea>
+            </div>
+            <div class="form-container">
+              <iframe id="pdf-viewer" src="{{ url_for('uploaded_file', filename=filename) }}" style="margin-top: 20px; margin-left: 2px; width: 150px; height: 200px;"></iframe>
+              <iframe id="docx-viewer" src="{{ url_for('uploaded_file', filename=filename) }}" style="margin-top: 20px; margin-left: 50px; width: 150px; height: 200px;"></iframe>
+            </div>
+            <div class="buttons-container">
+              <button type="button" style="flex-grow: 0; margin-left: 25px;">Download PDF</button>
+              <button type="button" style="flex-grow: 0; margin-left: 90px;">Download docx</button>
+              <button type="submit" style="flex-grow: 2; margin-left: 200px;">Done</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

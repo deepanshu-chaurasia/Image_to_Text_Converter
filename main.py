@@ -2,9 +2,6 @@ import fitz
 import pytesseract
 import re
 import pandas as pd
-from unidecode import unidecode
-from io import BytesIO
-from PIL import Image
 import docx
 from pdf2image import convert_from_path
 from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageEnhance
@@ -30,9 +27,9 @@ def image_to_pdf(file_path):
 def image_to_unstructured_text(image_path):
     text = pytesseract.image_to_string(Image.open(image_path))
 
-    doc = docx.Document()
-    doc.add_paragraph(text)
-    doc.save("newdoc.docx")
+    # doc = docx.Document()
+    # doc.add_paragraph(text)
+    # doc.save("newdoc.docx")
 
     return text
 

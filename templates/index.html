@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Image to Text Converter</title>
+    <style>
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+      table {
+        border-collapse: collapse;
+        margin: 50px;
+      }
+      th, td {
+        border: 1px solid black;
+        padding: 10px;
+      }
+      th {
+        background-color: #ddd;
+      }
+      .form-container label {
+        display: inline-block;
+        justify-content: left;
+        width: 50%;
+        font-size: 14px;
+        padding-top: 5px;
+
+      }
+
+      .form-container input {
+        display: inline-block;
+        width: 50%;
+        justify-content: left;
+        border-radius: 5px;
+        padding-bottom: 17px;
+        box-sizing: border-box;
+        font-size: 14px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Image to Text Converter</h1>
+      <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <button type="submit">Upload</button>
+      </form>
+      {% if image_file %}
+        <table>
+          <tr>
+            <th>Filename</th>
+            <th>View</th>
+          </tr>
+          <tr>
+            <td>{{ image_file }}</td>
+            <td><a href="{{ url_for('read_image', filename=image_file) }}">View and Read Image</a></td>
+          </tr>
+        </table>
+      {% endif %}
+    </div>
+  </body>
+</html>
