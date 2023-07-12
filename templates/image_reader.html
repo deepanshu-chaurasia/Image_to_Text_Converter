@@ -1,7 +1,8 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Image to Text Converter</title>
+{% extends "base.html" %}
+
+
+
+{%block content%}
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -16,7 +17,8 @@
         margin-top: 5px;
         justify-content: center;
         max-height: 100%;
-        margin: 30px;
+        background-color: #DDDDDD;
+        margin-top: 5px
       }
 
       .image-column {
@@ -152,14 +154,14 @@
         copyButton.innerHTML = "&#10004; Copied";
       }
     </script>
-  </head>
-  <body>
-    <span>
-      <h1 style="text-align: center;">Image to Text Converter</h1>
-    </span>
+
     <div class="container">
-      <div class="image-column">
-        <iframe id="image-viewer" src="{{ url_for('uploaded_file', filename=filename) }}"></iframe>
+      <div class="col-md-6">
+        <div class="embed-responsive embed-responsive-21by9">
+          <iframe class="embed-responsive-item" id="image-viewer" src="{{ url_for('uploaded_file', filename=filename) }}"></iframe>
+        </div>
+
+<!--        <iframe id="image-viewer" src="{{ url_for('uploaded_file', filename=filename) }}"></iframe>-->
       </div>
       <div class="info-column">
         <div>
@@ -169,10 +171,17 @@
               <button type="button" id="copy-button" onclick="copyText()">Copy Text</button>
             </div>
             <div class="form-container">
-              <textarea id="image-text" name="image-text" rows="20" cols="95" required>{{text}}</textarea>
+              <div class="form-group">
+                <textarea class="form-control"  id="image-text" name="image-text" rows="15" cols="95" required>{{text}}</textarea>
+              </div>
+
+<!--              <textarea id="image-text" name="image-text" rows="20" cols="95" required>{{text}}</textarea>-->
             </div>
-            <div class="form-container">
-              <iframe id="pdf-viewer" src="{{ url_for('uploaded_file', filename=filename) }}" style="margin-top: 20px; margin-left: 2px; width: 150px; height: 200px;"></iframe>
+            <div class="col-md-6">
+              <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" id="pdf-viewer" src="{{ pdf_path }}" style="margin-top: 20px; margin-left: 2px; width: 150px; height: 200px;"></iframe>
+              </div>
+<!--              <iframe id="pdf-viewer" src="{{ pdf_path }}" style="margin-top: 20px; margin-left: 2px; width: 150px; height: 200px;"></iframe>-->
               <iframe id="docx-viewer" src="{{ url_for('uploaded_file', filename=filename) }}" style="margin-top: 20px; margin-left: 50px; width: 150px; height: 200px;"></iframe>
             </div>
             <div class="buttons-container">
@@ -184,5 +193,4 @@
         </div>
       </div>
     </div>
-  </body>
-</html>
+{% endblock %}

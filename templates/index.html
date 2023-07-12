@@ -1,15 +1,23 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Image to Text Converter</title>
-    <style>
-      .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-      }
+{% extends "base.html" %}
+
+
+
+{%block content%}
+ <style>
+ .content{
+ background-color: #DDDDDD;
+ margin-top: 5px;
+
+ }
+<!--      .container {-->
+<!--        display: flex;-->
+<!--        flex-direction: row;-->
+<!--        align-items: center;-->
+<!--        justify-content: center;-->
+<!--        height: 100vh;-->
+
+
+<!--      }-->
       table {
         border-collapse: collapse;
         margin: 50px;
@@ -21,46 +29,67 @@
       th {
         background-color: #ddd;
       }
-      .form-container label {
-        display: inline-block;
-        justify-content: left;
-        width: 50%;
-        font-size: 14px;
-        padding-top: 5px;
-
-      }
-
-      .form-container input {
-        display: inline-block;
-        width: 50%;
-        justify-content: left;
-        border-radius: 5px;
-        padding-bottom: 17px;
-        box-sizing: border-box;
-        font-size: 14px;
-      }
 
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>Image to Text Converter</h1>
-      <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <button type="submit">Upload</button>
-      </form>
-      {% if image_file %}
-        <table>
-          <tr>
-            <th>Filename</th>
-            <th>View</th>
-          </tr>
-          <tr>
-            <td>{{ image_file }}</td>
-            <td><a href="{{ url_for('read_image', filename=image_file) }}">View and Read Image</a></td>
-          </tr>
-        </table>
-      {% endif %}
+
+
+    <div class="container content" >
+
+        <div class="row">
+            <div class="col-md-6 d-flex align-items-center p-3">
+                  <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+
+                      <div class="row justify-content-left">
+                                     <h1 style="margin-left: 10px; padding-top:5px;">Image to Text Converter</h1>
+                                      <p style="font-size: 13px; margin-left: 10px; margin-right: 10px;">Discover the power of our user-friendly web application that effortlessly converts images into text. With a seamless process, you can now extract valuable information from uploaded scanned images in no time.<br></br>
+
+                                    By uploading your image, our advanced algorithms swiftly analyze its content and extract the text with remarkable precision. Within moments, the extracted text appears, sparing you the hassle of manual transcription.<br></br>
+
+                                    But our application goes beyond mere extraction. We prioritize your convenience by offering flexible options for your extracted text. Whether you choose to copy and paste the text directly into your projects or documents or prefer a downloadable format, such as PDF, text, or Word, we've got you covered. Enjoy the freedom to use the text however you prefer.<br></br>
+
+                                    Yet, that's not all. We take it a step further by harnessing the power of artificial intelligence to create an intelligent companion capable of describing image scenes. Simply submit an image, and our application will generate a vivid and captivating description, bringing the image to life in words.<br></br>
+
+                                    Streamline your workflow, save valuable time, and unlock a world of possibilities with our transformative web application. Join us today and experience the magic of turning images into text effortlessly. Give it a try and revolutionize your image interaction now!</p>
+
+                    </div>
+                    <div class="row justify-content-left">
+                        <div class="col-md-12 mb-3 p-3">
+                          <label for="formFile" class="form-label">Select an Image file( .jpeg or .png )</label>
+                          <input class="form-control" type="file" id="formFile" name="file">
+                        </div>
+                    </div>
+                    <div class="row justify-content-left">
+                        <div class="col-md-4 mb-3 ">
+                          <button type="submit" class="btn btn-secondary">Upload</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="col-md-6 d-flex align-items-center">
+                <img src="https://globalmarkets.cib.bnpparibas/app/uploads/sites/4/2021/03/gm-smartd-market-intelligence.jpg" class="rounded mx-auto d-block" alt="text extraction" style="max-width: 90%; max-height: 90%;" >
+             </div>
+        </div>
+        <div class="row justify-content-center">
+                <div class="col-md-6 ">
+                          {% if image_file %}
+                            <table>
+                              <tr>
+                                <th>Filename</th>
+                                <th>View</th>
+                              </tr>
+                              <tr>
+                                <td>{{ image_file }}</td>
+                                <td>
+<!--                                    <a role="button"  href="{{ url_for('read_image', filename=image_file) }}">ttt</a>-->
+                                    <a class="btn btn-secondary" role="button" href="{{ url_for('read_image', filename=image_file) }}">View and Read Image</a>
+                                </td>
+                              </tr>
+                            </table>
+                          {% endif %}
+                </div>
+        </div>
+
     </div>
-  </body>
-</html>
+{% endblock %}

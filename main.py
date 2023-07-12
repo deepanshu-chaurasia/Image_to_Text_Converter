@@ -114,23 +114,31 @@ def if_image_is_pdf(file_path):
     pdffile.close()
 
 
-def image_to_text_pdf(image_path):
+def image_to_text_pdf(image_path, pdf_path):
     # image_path = "page0.png"
     # image = fitz.open(image_path)
     # rect = image[0].rect
     image1 = Image.open(image_path)
+    image1.save("undone.pdf")
     el = image1.convert('L')
+    el = el.filter(ImageFilter.DETAIL)
+    el = el.filter(ImageFilter.EDGE_ENHANCE_MORE)
 
-    enh_img = el.filter(ImageFilter.DETAIL).filter(ImageFilter.EDGE_ENHANCE_MORE).filter(ImageFilter.SMOOTH_MORE)
+    enh_img = el.filter(ImageFilter.SMOOTH_MORE)
+
     pil_image = enh_img.filter(ImageFilter.DETAIL)
 
-    # enhancer = ImageEnhance.Contrast(pil_image2)
-    # enhanced_image0 = enhancer.enhance(1.2)
-    # enhancer1 = ImageEnhance.Brightness(pil_image2)
-    # pil_image = enhancer1.enhance(1.1)
+    #     enhancer = ImageEnhance.Brightness(pil_image2)
+    #     enhanced_image0 = enhancer.enhance(1.2)
+
+    #     enhancer0 = ImageEnhance.Contrast(enhanced_image0)
+    #     enhanced_image1 = enhancer0.enhance(1.5)
+
+    #     enhancer1 = ImageEnhance.Sharpness(enhanced_image1)
+    #     pil_image = enhancer1.enhance(1.2)
 
     # pil_image.show()
-    pil_image.save("undone.pdf")
+    #     pil_image
     # Create a new PDF document
     doc = fitz.open("undone.pdf")
 
@@ -193,7 +201,7 @@ def image_to_text_pdf(image_path):
         text = writing[5]
         # print((x_text_in_pdf, y_text_in_pdf, writing[2], writing[3]))
 
-        text_box = fitz.Rect(x_text_in_pdf + 0.5, y_text_in_pdf - 0.5, writing[2], writing[3])
+        text_box = fitz.Rect(x_text_in_pdf + 0.5, y_text_in_pdf - 3.5, writing[2], writing[3])
         fontsize = writing[4]
         color = (1, 0, 0)  # RGB values for red
         try:
@@ -205,5 +213,5 @@ def image_to_text_pdf(image_path):
             print(text_box)
             pass
     # Save the PDF to the output file
-    doc.save("output_pdf.pdf")
+    doc.save(pdf_path)
     doc.close()

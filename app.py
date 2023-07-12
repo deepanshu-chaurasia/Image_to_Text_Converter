@@ -1,5 +1,5 @@
 from flask import Flask, send_file, render_template, request, redirect, url_for, send_from_directory, session
-from main import image_to_unstructured_text
+from main import image_to_unstructured_text, image_to_text_pdf
 import tempfile
 import threading
 import csv
@@ -43,18 +43,10 @@ def uploaded_file(filename):
     file_path = f"images/{filename.replace('.','_')}/{filename}"
     # image = Image.open(file_path)
     image = fitz.open(file_path)
-    # image_size = image.size
-    # if image_size[0] > 720 or image_size[1] > 620:
-    #     display_image = image.resize((round(image_size[0]/100*40), round(image_size[1]/100*40)))
-    # else:
-    #     display_image = image.resize((round(image_size[0]), round(image_size[1])))
     rect = image[0].rect
     # Create a new PDF document
     doc = fitz.open()
 
-    # Add the image as a new page in the PDF
-
-    # page = pdf[-1]  # Get the newly created page
     pdfbytes = image.convert_to_pdf()
     imgPDF = fitz.open("pdf", pdfbytes)
 
@@ -64,16 +56,23 @@ def uploaded_file(filename):
     temp_file = tempfile.NamedTemporaryFile(delete=True, suffix='.pdf')
     temp_filename = temp_file.name
     doc.save(temp_filename)
-    # return send_from_directory(f"images", filename)
+
     return send_file(temp_filename)
 
 
 @app.route('/read_image/<filename>')
 def read_image(filename):
     file_path = f"images/{filename.replace('.','_')}/{filename}"
+    pdf_path = f"images/{filename.replace('.', '_')}/{filename}.pdf"
+
     text = image_to_unstructured_text(file_path)
 
-    return render_template('image_reader.html', filename=filename, text=text)
+    image_to_text_pdf(file_path, pdf_path)
+
+    # return send_from_directory(f"images", filename)
+    # files = [text, pdf_path]
+
+    return render_template('image_reader.html', filename=filename, text=text, pdf_path=pdf_path)
 
 @app.route('/process_image/<filename>')
 def process_image():
