@@ -153,7 +153,7 @@ def image_to_text_pdf(image_path, pdf_path):
     image_size_in_pdf = tuple(page.mediabox_size)
     print("image size: ", image_size)
     print("image in pdf: ", image_size_in_pdf)
-    # Read the text from the images using pytesseract
+    # Read the text from the data using pytesseract
     # text = pytesseract.image_to_string(image)
     data = pytesseract.image_to_data(pil_image, output_type=pytesseract.Output.DICT)
     # print(data)
